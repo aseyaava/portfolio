@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Load All Github users</title>
+    <style>
+        #none{
+        border:2px solid rgb(107, 7, 7);
+        margin:5%;
+        background-color:rgb(216, 238, 238);
+      }
+    </style>
+</head>
+<body>
+    <h1><b>Load Github users</b></h1>
+    <button id="btn">Load Github Users</button> 
+    <br>
+    <div id="show"></div>
+    
+    <script align="center" >
+        document.getElementById("btn").addEventListener('click', onProcess);
+        function onProcess(){
+            var req = new XMLHttpRequest();
+            req.open('GET', 'https://api.github.com/users', true);
+            req.onload = function() {
+                if(req.status==200){
+                  var people = JSON.parse(req.responseText)
+                  var display= '';
+                  for(var i in people){
+                   display +=
+                   '<div id="none">' +
+                   '<img src="'+people[i].avatar_url+'" width="20%" height="30%">'+
+                   '<ul>' +
+                   '<li>ID:'+people[i].id+'</li>' +
+                   '<li>Login:'+people[i].login+'</li>' +
+                   '<p><li>Repos: <a href="'+people[i].repos_url +'">'+people[i].repos_url +'</a></li></p>'+
+                   '</ul> '+
+                   '</div>';
+                   document.getElementById('show').innerHTML = display;
+                   }
+                }
+            }
+            req.send();
+        }
+    </script>
+  </body>
+</html>
